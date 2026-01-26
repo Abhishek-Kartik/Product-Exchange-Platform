@@ -18,6 +18,10 @@ jobs:
         with:
           java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
+      - name: Start Docker Compose
+        run: docker compose up -d
+        working-directory: product-exchange    
+          
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:

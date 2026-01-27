@@ -37,7 +37,7 @@ public class AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register(RegistrationRequest request) throws MessagingException {
+    public User register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initiated"));
         var user = User.builder()
@@ -51,6 +51,7 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
         sendValidationEmail(user);
+        return user;
     }
 
 
@@ -113,7 +114,7 @@ public class AuthenticationService {
                 .build();
     }
 
-
+   @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));

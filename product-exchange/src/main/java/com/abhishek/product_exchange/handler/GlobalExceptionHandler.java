@@ -72,7 +72,6 @@ public class GlobalExceptionHandler {
         Set<String> errors = new HashSet<>();
         exp.getBindingResult().getAllErrors()
                 .forEach(error -> {
-                    //var fieldName = ((FieldError) error).getField();
                     var errorMessage = error.getDefaultMessage();
                     errors.add(errorMessage);
                 });
@@ -88,7 +87,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
-        exp.printStackTrace();
         return ResponseEntity
                 .status(INTERNAL_SERVER_ERROR)
                 .body(

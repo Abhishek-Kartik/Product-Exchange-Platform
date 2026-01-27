@@ -1,6 +1,7 @@
 package com.abhishek.product_exchange.auth;
 
 
+import com.abhishek.product_exchange.user.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -18,10 +19,9 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
-        authenticationService.register(request);
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<User> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
+        User user = authenticationService.register(request);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
     }
 
     @PostMapping("/authentication")

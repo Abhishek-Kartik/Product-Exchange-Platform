@@ -1,5 +1,7 @@
 package com.abhishek.product_exchange.user;
 
+import com.abhishek.product_exchange.history.ProductTransactionHistory;
+import com.abhishek.product_exchange.product.Product;
 import com.abhishek.product_exchange.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -47,6 +49,12 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Product> products;
+
+    @OneToMany(mappedBy = "user")
+    private List<ProductTransactionHistory> histories;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

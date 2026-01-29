@@ -1,16 +1,14 @@
 package com.abhishek.product_exchange.product;
 
 
+import com.abhishek.product_exchange.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("products")
@@ -25,4 +23,48 @@ public class ProductController {
         Long id = productService.save(productRequest, connectedUser);
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
+
+    @GetMapping("{product-id}")
+    public ResponseEntity<ProductResponse> findByProductById(@PathVariable("product-id") Long productid){
+        ProductResponse pid = productService.findById(productid);
+        return ResponseEntity.status(HttpStatus.OK).body(pid);
+    }
+
+    @GetMapping
+    public ResponseEntity<PageResponse<ProductResponse>> findAllProducts(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        PageResponse<ProductResponse> response = productService.findAllProducts(page, size, connectedUser);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/owner")
+    public ResponseEntity<PageResponse<ProductResponse>> findAllProductsByOwner(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.findAllProductsByOwner(page, size, connectedUser));
+    }
+
+    @GetMapping("/borrowed")
+    public ResponseEntity<PageResponse<BorrowedProductResponse>> findAllBorrowedProducts(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.findAllBorrowedProducts(page, size, connectedUser));
+    }
+
+    @GetMapping("/returned")
+    public ResponseEntity<PageResponse<BorrowedProductResponse>> findAllReturnedProducts(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.findAllReturnedProducts(page, size, connectedUser));
+    }
+
 }

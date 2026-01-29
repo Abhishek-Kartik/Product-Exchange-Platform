@@ -37,4 +37,16 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<ProductTransactionHistory> histories;
+
+    @Transient
+    public double getRating(){
+        if(feedbacks == null || feedbacks.isEmpty()){
+            return 0.0;
+        }
+        var rating = this.feedbacks.stream()
+                .mapToDouble(Feedback::getNote)
+                .average()
+                .orElse(0.0);
+        return Math.round(rating *10.0) /10.0;
+    }
 }

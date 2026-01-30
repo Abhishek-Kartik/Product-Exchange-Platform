@@ -1,6 +1,7 @@
 package com.abhishek.product_exchange.product;
 
 import com.abhishek.product_exchange.common.PageResponse;
+import com.abhishek.product_exchange.exception.OperationNotPermittedException;
 import com.abhishek.product_exchange.history.ProductTransactionHistory;
 import com.abhishek.product_exchange.history.ProductTransactionHistoryRepository;
 import com.abhishek.product_exchange.user.User;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -91,7 +93,32 @@ public class ProductService {
     }
 
     public PageResponse<BorrowedProductResponse> findAllReturnedProducts(int page, int size, Authentication connectedUser) {
-        return null;
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdDate").descending());
+        Page<ProductTransactionHistory> allBorrowedProducts = productTransactionHistoryRepository.findAllReturnedProducts(pageable, connectedUser.getName());
+        List<BorrowedProductResponse> productResponses = allBorrowedProducts.stream()
+                .map(productMapper::toBorrowedProductResponse)
+                .toList();
+        return new PageResponse<>(
+                productResponses,
+                allBorrowedProducts.getNumber(),
+                allBorrowedProducts.getSize(),
+                allBorrowedProducts.getTotalElements(),
+                allBorrowedProducts.getTotalPages(),
+                allBorrowedProducts.isFirst(),
+                allBorrowedProducts.isLast()
+        );
+    }
+
+    public Long updateShareableStatus(Long productId, Authentication connectedUser) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new EntityNotFoundException("No product found with the Id: "+productId));
+
+        if (!Objects.equals(product.getCreatedBy(), connectedUser.getName())) {
+            throw new OperationNotPermittedException("You cannot update others products shareable status");
+        }
+        product.setShareable(!product.isShareable());
+        productRepository.save(product);
+        return productId;
     }
 }
 

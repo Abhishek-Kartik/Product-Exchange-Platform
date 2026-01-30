@@ -13,4 +13,13 @@ public interface ProductTransactionHistoryRepository extends JpaRepository<Produ
             WHERE history.userId = :userId
             """)
     Page<ProductTransactionHistory> findAllBorrowedProducts(Pageable pageable, String userId);
+
+    @Query("""
+            SELECT history
+            FROM ProductTransactionHistory history
+            WHERE history.product.owner.id = :userId
+            """)
+    Page<ProductTransactionHistory> findAllReturnedProducts(Pageable pageable, String userId);
+
+
 }

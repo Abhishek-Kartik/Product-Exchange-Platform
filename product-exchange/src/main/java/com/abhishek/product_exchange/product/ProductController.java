@@ -67,4 +67,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.findAllReturnedProducts(page, size, connectedUser));
     }
 
+    @PatchMapping("/shareable/{product-id}")
+    public ResponseEntity<Long> updateShareableStatus(@PathVariable("product-id") Long productId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.updateShareableStatus(productId, connectedUser));
+    }
+
 }

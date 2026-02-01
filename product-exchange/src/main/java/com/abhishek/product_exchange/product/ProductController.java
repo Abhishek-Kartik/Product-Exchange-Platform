@@ -74,4 +74,37 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateShareableStatus(productId, connectedUser));
     }
 
+
+    @PatchMapping("/archived/{product-id}")
+    public ResponseEntity<Long> updateArchivedStatus(
+            @PathVariable("product-id") Long productId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.updateArchivedStatus(productId, connectedUser));
+    }
+
+    @PostMapping("borrow/{product-id}")
+    public ResponseEntity<Long> borrowProduct(
+            @PathVariable("product-id") Long productId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.borrowProduct(productId, connectedUser));
+    }
+
+    @PatchMapping("borrow/return/{product-id}")
+    public ResponseEntity<Long> returnBorrowProduct(
+            @PathVariable("product-id") Long productId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.returnBorrowedProduct(productId, connectedUser));
+    }
+
+    @PatchMapping("borrow/return/approve/{product-id}")
+    public ResponseEntity<Long> approveReturnBorrowProduct(
+            @PathVariable("product-id") Long productId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(productService.approveReturnBorrowedProduct(productId, connectedUser));
+    }
+
 }

@@ -53,7 +53,7 @@ public class User implements UserDetails, Principal {
     @OneToMany(mappedBy = "owner")
     private List<Product> products;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private List<ProductTransactionHistory> histories;
 
     @CreatedDate

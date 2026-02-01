@@ -23,7 +23,7 @@ public class ProductTransactionHistory extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("products")
@@ -83,7 +84,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateArchivedStatus(productId, connectedUser));
     }
 
-    @PostMapping("borrow/{product-id}")
+    @PostMapping("/borrow/{product-id}")
     public ResponseEntity<Long> borrowProduct(
             @PathVariable("product-id") Long productId,
             Authentication connectedUser
@@ -91,7 +92,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.borrowProduct(productId, connectedUser));
     }
 
-    @PatchMapping("borrow/return/{product-id}")
+    @PatchMapping("/borrow/return/{product-id}")
     public ResponseEntity<Long> returnBorrowProduct(
             @PathVariable("product-id") Long productId,
             Authentication connectedUser
@@ -99,12 +100,20 @@ public class ProductController {
         return ResponseEntity.ok(productService.returnBorrowedProduct(productId, connectedUser));
     }
 
-    @PatchMapping("borrow/return/approve/{product-id}")
+    @PatchMapping("/borrow/return/approve/{product-id}")
     public ResponseEntity<Long> approveReturnBorrowProduct(
             @PathVariable("product-id") Long productId,
             Authentication connectedUser
     ) {
         return ResponseEntity.ok(productService.approveReturnBorrowedProduct(productId, connectedUser));
+    }
+    @PostMapping(value = "/cover/{product-id}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadProductCoverPicture(
+            @PathVariable("product-id") Long productId,
+            @RequestPart("file") MultipartFile file,
+            Authentication connectedUser){
+        productService.uploadProductCoverPicture(productId, file, connectedUser);
+        return ResponseEntity.accepted().build();
     }
 
 }

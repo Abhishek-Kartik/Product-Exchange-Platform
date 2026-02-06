@@ -2,6 +2,7 @@ package com.abhishek.product_exchange.product;
 
 import com.abhishek.product_exchange.common.PageResponse;
 import com.abhishek.product_exchange.exception.OperationNotPermittedException;
+import com.abhishek.product_exchange.file.FileStorageService;
 import com.abhishek.product_exchange.history.ProductTransactionHistory;
 import com.abhishek.product_exchange.history.ProductTransactionHistoryRepository;
 import com.abhishek.product_exchange.user.User;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +27,7 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     private final ProductTransactionHistoryRepository productTransactionHistoryRepository;
+    private final FileStorageService fileStorageService;
 
     public Long save(@Valid ProductRequest productRequest, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
@@ -198,6 +201,15 @@ public class ProductService {
 
         productTransactionHistory.setReturnApproved(true);
         return productTransactionHistoryRepository.save(productTransactionHistory).getId();
+    }
+
+    public void uploadProductCoverPicture(Long productId, MultipartFile file, Authentication connectedUser) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new EntityNotFoundException("No product found with the Id: "+ productId));
+        User user = ((User) connectedUser.getPrincipal());
+        var productCover = fileStorageService.saveFile(file, user.getId());
+        product.setImageUrl(productCover);
+        productRepository.save(product);
     }
 }
 

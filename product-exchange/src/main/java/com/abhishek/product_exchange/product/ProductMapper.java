@@ -1,5 +1,6 @@
 package com.abhishek.product_exchange.product;
 
+import com.abhishek.product_exchange.file.FileUtils;
 import com.abhishek.product_exchange.history.ProductTransactionHistory;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ProductMapper {
                 .archived(product.isArchived())
                 .shareable(product.isShareable())
                 .owner(product.getOwner().getFullName())
+                .imageCover(FileUtils.readFileFromLocation(product.getImageUrl()))
                 .build();
     }
 

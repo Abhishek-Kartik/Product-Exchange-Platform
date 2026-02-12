@@ -1,4 +1,5 @@
 <div class="container-fluid card login-container">
+  <br />
   <h3 class="text-center">Create an Account</h3>
   <hr />
   <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
@@ -11,7 +12,7 @@
       type="text"
       class="form-control"
       id="firstname"
-      placeholder="Joe"
+      placeholder="Firstname"
     />
   </div>
   <div class="mb-3">
@@ -21,7 +22,7 @@
       type="text"
       class="form-control"
       id="lastname"
-      placeholder="Doe"
+      placeholder="Lastname"
     />
   </div>
   <div class="mb-3">
@@ -31,26 +32,37 @@
       type="email"
       class="form-control"
       id="email"
-      placeholder="name@example.com"
+      placeholder="abc@example.com"
     />
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
-    <input
-      [(ngModel)]="registerRequest.password"
-      type="password"
-      class="form-control"
-      id="password"
-      placeholder="Password"
-    />
-  </div> 
+    <div class="position-relative d-flex align-items-center">
+      <input
+        [(ngModel)]="registerRequest.password"
+        [type]="showPassword ? 'text' : 'password'"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+      />
+      <i
+        class="fa"
+        [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+        (click)="togglePassword()"
+        style="position: absolute; right: 15px; cursor: pointer; color: #6c757d"
+      ></i>
+    </div>
+  </div>
+
   <div class="d-flex justify-content-between mb-3">
     <button (click)="register()" type="button" class="btn btn-primary">
-      <em class="fas fa-sign-in-alt">&nbsp;Register</em>
+      <i class="fas fa-sign-in-alt"></i>&nbsp;Register
     </button>
-    <div>
+    <div class="d-flex align-items-center">
       Already have an account?&nbsp;
-      <button (click)="login()" type="button" class="btn btn-link">Login</button>
+      <button (click)="login()" type="button" class="btn btn-link">
+        Login
+      </button>
     </div>
   </div>
 </div>

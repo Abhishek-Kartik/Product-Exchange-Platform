@@ -70,7 +70,7 @@ export class MyProductsComponent implements OnInit {
     return this.page === this.productResponse.totalPages as number - 1;
   }
 
-  archiveBook(product: ProductResponse) {
+  archiveProduct(product: ProductResponse) {
     this.productService.updateArchivedStatus({
       'product-id': product.id as number
     }).subscribe({

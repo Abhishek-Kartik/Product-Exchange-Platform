@@ -1,4 +1,5 @@
 <div class="container-fluid card login-container">
+  <br />
   <h3 class="text-center">Login</h3>
   <hr />
   <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
@@ -11,26 +12,37 @@
       type="email"
       class="form-control"
       id="login"
-      placeholder="name@example.com"
+      placeholder="abc@example.com"
     />
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
-    <input
-      [(ngModel)]="authRequest.password"
-      type="password"
-      class="form-control"
-      id="password"
-      placeholder="Password"
-    />
-  </div> 
-  <div class="d-flex justify-content-between mb-3">
+    <div class="position-relative d-flex align-items-center">
+      <input
+        [(ngModel)]="authRequest.password"
+        [type]="showPassword ? 'text' : 'password'"
+        class="form-control"
+        id="password"
+        placeholder="Password"
+      />
+      <i
+        class="fa"
+        [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+        (click)="togglePassword()"
+        style="position: absolute; right: 15px; cursor: pointer; color: #6c757d"
+      ></i>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
     <button (click)="login()" type="button" class="btn btn-primary">
-      <em class="fas fa-sign-in-alt">&nbsp;Sign in</em>
+      <i class="fas fa-sign-in-alt"></i>&nbsp;Sign in
     </button>
-    <div>
-      Don't have an account?&nbsp;
-      <button (click)="register()" type="button" class="btn btn-link">Register</button>
+    <div class="d-flex align-items-center">
+      <span>Don't have an account?</span>&nbsp;
+      <button (click)="register()" type="button" class="btn btn-link p-0">
+        Register
+      </button>
     </div>
   </div>
 </div>

@@ -14,7 +14,7 @@ export class RegisterComponent {
     email:'', firstname:'',lastname:'', password:''
   }
   errorMsg: Array<string> =[];
-
+  showPassword:boolean = false;
   constructor(
     private router: Router,
   private authService: AuthenticationService) { }
@@ -36,6 +36,9 @@ export class RegisterComponent {
   
   login(){
      this.router.navigate(['login']);
+  }
+  togglePassword() {
+  this.showPassword = !this.showPassword;
   }
 
 }

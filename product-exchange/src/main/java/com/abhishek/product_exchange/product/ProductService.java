@@ -119,7 +119,7 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(()-> new EntityNotFoundException("No product found with the Id: "+productId));
 
-        if (!Objects.equals(product.getOwner().getProducts(), user.getId())) {
+        if (!Objects.equals(product.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You cannot update others products shareable status");
         }
         product.setShareable(!product.isShareable());
@@ -152,7 +152,7 @@ public class ProductService {
         if (Objects.equals(product.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You cannot borrow your own product");
         }
-        final boolean isAlreadyBorrowedByUser = productTransactionHistoryRepository.isAlreadyBorrowedByUser(productId, connectedUser.getName());
+        final boolean isAlreadyBorrowedByUser = productTransactionHistoryRepository.isAlreadyBorrowedByUser(productId, user.getId());
         if (isAlreadyBorrowedByUser) {
             throw new OperationNotPermittedException("You already borrowed this product and it is still not returned or the return is not approved by the owner");
         }
@@ -193,8 +193,8 @@ public class ProductService {
             throw new OperationNotPermittedException("The requested product cannot be borrowed since it is archived or not shareable");
         }
         User user = ((User) connectedUser.getPrincipal());
-        if (Objects.equals(product.getOwner().getId(), user.getId())) {
-            throw new OperationNotPermittedException("You cannot return your own product");
+        if (!Objects.equals(product.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot return a product that you do not own");
         }
         ProductTransactionHistory productTransactionHistory = productTransactionHistoryRepository.findByProductIdAndOwnerId(productId,user.getId())
                 .orElseThrow(()->new OperationNotPermittedException("The product is not returned yet. so you cannot approve the return") );

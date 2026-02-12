@@ -10,8 +10,10 @@ import { TokenService } from 'src/app/services/token/token.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+
   authRequest: AuthenticationRequest = { email: '', password: '' };
   errorMsg: Array<String> = [];
+  showPassword = false;
 
   constructor(
     private router: Router,
@@ -40,5 +42,9 @@ export class LoginComponent {
 
   register() {
     this.router.navigate(['register']);
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

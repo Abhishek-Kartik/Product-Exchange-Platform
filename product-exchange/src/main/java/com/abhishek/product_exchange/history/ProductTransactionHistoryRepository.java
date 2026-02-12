@@ -32,7 +32,7 @@ public interface ProductTransactionHistoryRepository extends JpaRepository<Produ
             AND productTransactionHistory.product.id = :productId
             AND productTransactionHistory.returnApproved = false
             """)
-    boolean isAlreadyBorrowedByUser(Long productId, String name);
+    boolean isAlreadyBorrowedByUser(Long productId, Long userId);
 
     @Query("""
             SELECT transaction

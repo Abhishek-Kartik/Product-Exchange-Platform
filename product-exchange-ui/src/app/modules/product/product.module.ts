@@ -8,6 +8,10 @@ import { ProductListComponent } from './pages/product-list/product-list.componen
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { MyProductsComponent } from './pages/my-products/my-products.component';
+import { ManageProductComponent } from './pages/manage-product/manage-product.component';
+import { FormsModule } from '@angular/forms';
+import { BorrowedProductListComponent } from './pages/borrowed-product-list/borrowed-product-list.component';
+import { ReturnedProductsComponent } from './pages/returned-products/returned-products.component';
 
 
 @NgModule({
@@ -17,11 +21,15 @@ import { MyProductsComponent } from './pages/my-products/my-products.component';
     ProductListComponent,
     ProductCardComponent,
     RatingComponent,
-    MyProductsComponent
+    MyProductsComponent,
+    ManageProductComponent,
+    BorrowedProductListComponent,
+    ReturnedProductsComponent
   ],
   imports: [
     CommonModule,
-    ProductRoutingModule
+    ProductRoutingModule,
+    FormsModule
   ]
 })
 export class ProductModule { }

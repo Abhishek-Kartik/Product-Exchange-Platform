@@ -10,7 +10,6 @@ import com.abhishek.product_exchange.user.User;
 import com.abhishek.product_exchange.user.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,8 +33,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    @Value("${application.mailing.frontend.activation-url}")
-    private String activationUrl;
 
     public User register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
@@ -70,13 +67,10 @@ public class AuthenticationService {
 
     private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
-
-
         emailService.sendEmail(
                 user.getEmail(),
                 user.getFullName(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,
-                activationUrl,
                 newToken,
                 "Account activation"
         );
@@ -131,4 +125,39 @@ public class AuthenticationService {
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
     }
+
+    public void resendActivationCode(String email) throws MessagingException{
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        String existingToken = tokenRepository.findByUserId(user.getId())
+                .filter(token -> token.getExpiredAt().isAfter(LocalDateTime.now()))
+                .map(Token::getToken)
+                .orElse(null);
+
+        if(existingToken == null){
+            sendValidationEmail(user);
+        }
+        else{
+            emailService.sendEmail(
+                    user.getEmail(),
+                    user.getFullName(),
+                    EmailTemplateName.ACTIVATE_ACCOUNT,
+                    existingToken,
+                    "Account activation"
+            );
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

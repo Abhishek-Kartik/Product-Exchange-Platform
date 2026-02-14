@@ -601,6 +601,29 @@
         }
       }
     },
+    "/auth/resend-code": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "resendActivationCode",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/auth/activate-account": {
       "get": {
         "tags": [
@@ -930,14 +953,8 @@
           "fullName": {
             "type": "string"
           },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "accountNonExpired": {
-            "type": "boolean"
+          "username": {
+            "type": "string"
           },
           "authorities": {
             "type": "array",
@@ -945,8 +962,14 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "username": {
-            "type": "string"
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         }
       },

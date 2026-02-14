@@ -33,4 +33,9 @@ public class AuthenticationController {
     public void confirm(@RequestParam String token) throws MessagingException {
         authenticationService.activateAccount(token);
     }
+
+    @GetMapping("/resend-code")
+    public void resendActivationCode(@RequestParam String email) throws MessagingException{
+        authenticationService.resendActivationCode(email);
+    }
 }

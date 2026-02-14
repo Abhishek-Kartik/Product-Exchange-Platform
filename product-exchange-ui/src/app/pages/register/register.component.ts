@@ -6,39 +6,42 @@ import { AuthenticationService } from 'src/app/services/services';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-
   registerRequest: RegistrationRequest = {
-    email:'', firstname:'',lastname:'', password:''
-  }
-  errorMsg: Array<string> =[];
-  showPassword:boolean = false;
+    email: '',
+    firstname: '',
+    lastname: '',
+    password: '',
+  };
+  errorMsg: Array<string> = [];
+  showPassword: boolean = false;
   constructor(
     private router: Router,
-  private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+  ) {}
 
-  register(){
+  register() {
     this.errorMsg = [];
-    this.authService.register({
-      body: this.registerRequest
-    })
+    this.authService
+      .register({
+        body: this.registerRequest,
+      })
       .subscribe({
         next: () => {
-          this.router.navigate(['activate-account']);
+          this.router.navigate(['activate-account'],{queryParams:{email: this.registerRequest.email}});
         },
         error: (err) => {
           this.errorMsg = err.error.validationErrors;
-        }
+        },
       });
   }
-  
-  login(){
-     this.router.navigate(['login']);
+
+  login() {
+    this.router.navigate(['login']);
   }
   togglePassword() {
-  this.showPassword = !this.showPassword;
+    this.showPassword = !this.showPassword;
   }
-
 }

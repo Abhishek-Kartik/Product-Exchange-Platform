@@ -16,6 +16,8 @@ import { confirm } from '../fn/authentication/confirm';
 import { Confirm$Params } from '../fn/authentication/confirm';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
+import { resendActivationCode } from '../fn/authentication/resend-activation-code';
+import { ResendActivationCode$Params } from '../fn/authentication/resend-activation-code';
 import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
@@ -71,6 +73,31 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthenticationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `resendActivationCode()` */
+  static readonly ResendActivationCodePath = '/auth/resend-code';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `resendActivationCode()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resendActivationCode$Response(params: ResendActivationCode$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return resendActivationCode(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `resendActivationCode$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resendActivationCode(params: ResendActivationCode$Params, context?: HttpContext): Observable<void> {
+    return this.resendActivationCode$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

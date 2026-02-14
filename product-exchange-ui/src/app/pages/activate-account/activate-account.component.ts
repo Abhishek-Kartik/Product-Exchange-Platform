@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/services';
 
 @Component({
@@ -7,14 +7,22 @@ import { AuthenticationService } from 'src/app/services/services';
   templateUrl: './activate-account.component.html',
   styleUrls: ['./activate-account.component.css'],
 })
-export class ActivateAccountComponent {
+export class ActivateAccountComponent implements OnInit{
   message: string = '';
   isOkay: boolean = true;
   submitted: boolean = false;
+  email:string ='';
+
   constructor(
     private router: Router,
     private authService: AuthenticationService,
+    private activatedRoute: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    this.email = this.activatedRoute.snapshot.queryParamMap.get('email') || '';
+    console.log(this.email);
+  }
 
   redirectToLogin() {
     this.router.navigate(['login']);
@@ -38,5 +46,22 @@ export class ActivateAccountComponent {
           this.isOkay = false;
         },
       });
+  }
+
+  resendCode(email:string) {
+    this.authService.resendActivationCode({email}).subscribe({
+      next: () => {
+        this.message = 'A new code has been sent to your email.';
+        this.startCountdown();
+      },
+      error: () => {
+        this.message = 'Too many requests. Please try again later.';
+        this.isOkay = false;
+      },
+    });
+  }
+
+  startCountdown(){
+
   }
 }

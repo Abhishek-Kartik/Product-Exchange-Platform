@@ -53,6 +53,7 @@ public class AuthenticationService {
 
 
     private String generateAndSaveActivationToken(User user) {
+        tokenRepository.deleteByUserId(user.getId());
         String generatedToken = generateActivationCode(6);
         var token =  Token.builder()
                 .token(generatedToken)

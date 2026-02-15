@@ -12,6 +12,8 @@ export class ActivateAccountComponent implements OnInit{
   isOkay: boolean = true;
   submitted: boolean = false;
   email:string ='';
+  resendCooldown = 0;
+  timerInterval: any;
 
   constructor(
     private router: Router,
@@ -49,10 +51,11 @@ export class ActivateAccountComponent implements OnInit{
   }
 
   resendCode(email:string) {
+    if (this.resendCooldown > 0) return;
     this.authService.resendActivationCode({email}).subscribe({
       next: () => {
         this.message = 'A new code has been sent to your email.';
-        this.startCountdown();
+        this.startCountdown(30);
       },
       error: () => {
         this.message = 'Too many requests. Please try again later.';
@@ -61,7 +64,15 @@ export class ActivateAccountComponent implements OnInit{
     });
   }
 
-  startCountdown(){
-
+  startCountdown(seconds:number)
+  {
+    this.resendCooldown = seconds;
+    this.timerInterval = setInterval(() => {
+      this.resendCooldown--;
+      if (this.resendCooldown <= 0) {
+        clearInterval(this.timerInterval);
+      }
+    }, 1000);
   }
+  
 }

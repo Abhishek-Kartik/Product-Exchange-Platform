@@ -30,8 +30,15 @@
       <br />
       <div class="mt-4">
         <p>Didn't receive the code?</p>
-        <button type="button" class="btn btn-primary" (click)="resendCode(this.email)">
-          Resend Activation Code
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="resendCode(this.email)"
+          [disabled]="resendCooldown > 0">
+
+          <span *ngIf="resendCooldown <= 0"> Resend Activation Code </span>
+          <span *ngIf="resendCooldown > 0"> Resend Activation Code in {{ resendCooldown }}s </span>
+
         </button>
       </div>
     </div>

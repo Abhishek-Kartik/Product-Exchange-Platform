@@ -21,4 +21,12 @@ public interface TokenRepository extends JpaRepository<Token, Long>{
             WHERE t.expiredAt < :now
             """)
     Long deleteExpiredTokens(LocalDateTime now);
+
+    @Modifying
+    @Transactional
+    @Query("""
+           DELETE FROM Token t
+           WHERE t.user.id = :userId
+           """)
+    void deleteByUserId(Long userId);
 }

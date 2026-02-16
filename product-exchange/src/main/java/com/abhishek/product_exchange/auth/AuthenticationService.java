@@ -149,6 +149,45 @@ public class AuthenticationService {
         }
 
     }
+
+
+    public void forgotPassword(String email) throws MessagingException {
+        var optionalUser = userRepository.findByEmail(email);
+
+        //Do NOT reveal if user exists
+        //Prevent email enumeration
+        if(optionalUser.isEmpty()) return;
+        User user = optionalUser.get();
+        String token = generateAndSaveActivationToken(user);
+
+        emailService.sendEmail(
+                user.getEmail(),
+                user.getFullName(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                token,
+                "Account activation"
+        );
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Token token = tokenRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Invalid Activation Code"));
+
+        if (LocalDateTime.now().isAfter(token.getExpiredAt())) {
+            tokenRepository.delete(token);
+            throw new RuntimeException("Activation Code expired");
+        }
+
+        if (!token.getToken().equals(request.getOtp())) {
+            throw new RuntimeException("Invalid OTP");
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
 }
 
 

@@ -14,16 +14,49 @@ import { Authenticate$Params } from '../fn/authentication/authenticate';
 import { AuthenticationResponse } from '../models/authentication-response';
 import { confirm } from '../fn/authentication/confirm';
 import { Confirm$Params } from '../fn/authentication/confirm';
+import { forgotPassword } from '../fn/authentication/forgot-password';
+import { ForgotPassword$Params } from '../fn/authentication/forgot-password';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
 import { resendActivationCode } from '../fn/authentication/resend-activation-code';
 import { ResendActivationCode$Params } from '../fn/authentication/resend-activation-code';
+import { resetPassword } from '../fn/authentication/reset-password';
+import { ResetPassword$Params } from '../fn/authentication/reset-password';
 import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `resetPassword()` */
+  static readonly ResetPasswordPath = '/auth/reset-password';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `resetPassword()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  resetPassword$Response(params: ResetPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return resetPassword(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `resetPassword$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  resetPassword(params: ResetPassword$Params, context?: HttpContext): Observable<{
+}> {
+    return this.resetPassword$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
+    );
   }
 
   /** Path part for operation `register()` */
@@ -48,6 +81,35 @@ export class AuthenticationService extends BaseService {
   register(params: Register$Params, context?: HttpContext): Observable<User> {
     return this.register$Response(params, context).pipe(
       map((r: StrictHttpResponse<User>): User => r.body)
+    );
+  }
+
+  /** Path part for operation `forgotPassword()` */
+  static readonly ForgotPasswordPath = '/auth/forgot-password';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `forgotPassword()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  forgotPassword$Response(params: ForgotPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return forgotPassword(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `forgotPassword$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  forgotPassword(params: ForgotPassword$Params, context?: HttpContext): Observable<{
+}> {
+    return this.forgotPassword$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
     );
   }
 

@@ -25,7 +25,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
@@ -35,7 +35,21 @@ public class AuthenticationController {
     }
 
     @GetMapping("/resend-code")
-    public void resendActivationCode(@RequestParam String email) throws MessagingException{
+    public void resendActivationCode(@RequestParam String email) throws MessagingException {
         authenticationService.resendActivationCode(email);
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody @Valid ForgotPasswordRequest request) throws MessagingException {
+        authenticationService.forgotPassword(request.getEmail());
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordRequest request) throws MessagingException {
+        authenticationService.resetPassword(request);
+        return ResponseEntity.accepted().build();
+    }
+
+
 }

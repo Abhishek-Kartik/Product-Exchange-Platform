@@ -9,21 +9,39 @@
     <label for="login" class="form-label">Email address</label>
     <input
       [(ngModel)]="authRequest.email"
+      #emailRef="ngModel"
+      required
+      email
       type="email"
       class="form-control"
       id="login"
       placeholder="abc@example.com"
     />
+    <div
+      class="text-danger small mt-1"
+      *ngIf="emailRef.invalid && emailRef.touched"
+    >
+      <div *ngIf="emailRef.errors?.['required']">
+        Email address is required.
+      </div>
+      <div *ngIf="emailRef.errors?.['email']">
+        Please enter a valid email address.
+      </div>
+    </div>
   </div>
+
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
     <div class="position-relative d-flex align-items-center">
       <input
         [(ngModel)]="authRequest.password"
+        #passwordRef="ngModel"
+        minlength="8"
         [type]="showPassword ? 'text' : 'password'"
         class="form-control"
         id="password"
         placeholder="Password"
+        required
       />
       <i
         class="fa"
@@ -31,6 +49,12 @@
         (click)="togglePassword()"
         style="position: absolute; right: 15px; cursor: pointer; color: #6c757d"
       ></i>
+    </div>
+    <div class="text-danger small mt-1" *ngIf="passwordRef.touched">
+      <div *ngIf="passwordRef.errors?.['required']">Password is required.</div>
+      <div *ngIf="passwordRef.errors?.['minlength']">
+        Please enter 8 char password.
+      </div>
     </div>
   </div>
 

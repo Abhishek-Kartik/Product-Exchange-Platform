@@ -13,7 +13,18 @@
       class="form-control"
       id="firstname"
       placeholder="Firstname"
+      #firstnameRef="ngModel"
+      minlength="2"
+      required
     />
+    <div class="text-danger small mt-1" *ngIf="firstnameRef.touched">
+      <div *ngIf="firstnameRef.errors?.['required']">
+        First Name is required.
+      </div>
+      <div *ngIf="firstnameRef.errors?.['minlength']">
+        Please enter atleast 2 char in firstName.
+      </div>
+    </div>
   </div>
   <div class="mb-3">
     <label for="lastname" class="form-label">Lastname</label>
@@ -23,17 +34,40 @@
       class="form-control"
       id="lastname"
       placeholder="Lastname"
+      #lastNameRef="ngModel"
+      minlength="2"
+      required
     />
+    <div class="text-danger small mt-1" *ngIf="lastNameRef.touched">
+      <div *ngIf="lastNameRef.errors?.['required']">Last Name is required.</div>
+      <div *ngIf="lastNameRef.errors?.['minlength']">
+        Please enter atleast 2 char in lastName.
+      </div>
+    </div>
   </div>
   <div class="mb-3">
     <label for="email" class="form-label">Email address</label>
     <input
       [(ngModel)]="registerRequest.email"
+      #emailRef="ngModel"
+      required
+      email
       type="email"
       class="form-control"
       id="email"
       placeholder="abc@example.com"
     />
+    <div
+      class="text-danger small mt-1"
+      *ngIf="emailRef.invalid && emailRef.touched"
+    >
+      <div *ngIf="emailRef.errors?.['required']">
+        Email address is required.
+      </div>
+      <div *ngIf="emailRef.errors?.['email']">
+        Please enter a valid email address.
+      </div>
+    </div>
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
@@ -44,6 +78,9 @@
         class="form-control"
         id="password"
         placeholder="Password"
+        #passwordRef="ngModel"
+        minlength="8"
+        required
       />
       <i
         class="fa"
@@ -51,6 +88,12 @@
         (click)="togglePassword()"
         style="position: absolute; right: 15px; cursor: pointer; color: #6c757d"
       ></i>
+    </div>
+    <div class="text-danger small mt-1" *ngIf="passwordRef.touched">
+      <div *ngIf="passwordRef.errors?.['required']">Password is required.</div>
+      <div *ngIf="passwordRef.errors?.['minlength']">
+        Please enter 8 char password.
+      </div>
     </div>
   </div>
 

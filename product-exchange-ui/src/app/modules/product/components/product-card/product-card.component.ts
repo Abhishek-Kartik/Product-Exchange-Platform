@@ -7,16 +7,28 @@ import { ProductResponse } from 'src/app/services/models';
   styleUrls: ['./product-card.component.css'],
 })
 export class ProductCardComponent {
-
   private _product: ProductResponse = {};
   private _manage = false;
   private _productCover: string | undefined;
+
+  getRandomColor(): string {
+    const colors = [
+      '007bff', // blue
+      '28a745', // green
+      'dc3545', // red
+      'ffc107', // yellow
+      '6f42c1', // purple
+      '343a40', // dark
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
 
   get productCover(): string | undefined {
     if (this._product.imageCover) {
       return 'data:image/jpg;base64,' + this._product.imageCover;
     }
-    return 'https://source.unsplash.com/user/c_v_r/1900x800';
+    const bgColor = this.getRandomColor();
+    return `https://dummyimage.com/400x400/${bgColor}/ffffff&text=${this._product.title}`;
   }
 
   get product(): ProductResponse {
@@ -37,12 +49,18 @@ export class ProductCardComponent {
     this._manage = value;
   }
 
-  @Output() private share: EventEmitter<ProductResponse> = new EventEmitter<ProductResponse>();
-  @Output() private archive: EventEmitter<ProductResponse> = new EventEmitter<ProductResponse>();
-  @Output() private addToWaitingList: EventEmitter<ProductResponse> = new EventEmitter<ProductResponse>();
-  @Output() private borrow: EventEmitter<ProductResponse> = new EventEmitter<ProductResponse>();
-  @Output() private edit: EventEmitter<ProductResponse> = new EventEmitter<ProductResponse>();
-  @Output() private details: EventEmitter<ProductResponse> = new EventEmitter<ProductResponse>();
+  @Output() private share: EventEmitter<ProductResponse> =
+    new EventEmitter<ProductResponse>();
+  @Output() private archive: EventEmitter<ProductResponse> =
+    new EventEmitter<ProductResponse>();
+  @Output() private addToWaitingList: EventEmitter<ProductResponse> =
+    new EventEmitter<ProductResponse>();
+  @Output() private borrow: EventEmitter<ProductResponse> =
+    new EventEmitter<ProductResponse>();
+  @Output() private edit: EventEmitter<ProductResponse> =
+    new EventEmitter<ProductResponse>();
+  @Output() private details: EventEmitter<ProductResponse> =
+    new EventEmitter<ProductResponse>();
 
   onShare() {
     this.share.emit(this._product);

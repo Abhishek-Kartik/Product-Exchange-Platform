@@ -12,6 +12,7 @@ public class ProductMapper {
                 .id(productRequest.id())
                 .title(productRequest.title())
                 .brand(productRequest.brand())
+                .productCode(productRequest.productCode())
                 .description(productRequest.description())
                 .archived(false)
                 .shareable(productRequest.shareable())

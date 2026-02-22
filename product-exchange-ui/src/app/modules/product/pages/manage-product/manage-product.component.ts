@@ -51,6 +51,7 @@ export class ManageProductComponent implements OnInit {
   }
 
   saveProduct() {
+    this.errorMsg = [];
     this.productService.saveProduct({
       body: this.productRequest
     }).subscribe({

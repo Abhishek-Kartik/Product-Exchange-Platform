@@ -6,6 +6,8 @@ import com.abhishek.product_exchange.feedback.Feedback;
 import com.abhishek.product_exchange.history.ProductTransactionHistory;
 import com.abhishek.product_exchange.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -18,6 +20,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Product extends BaseEntity {
+
+    @NotEmpty(message = "Title is mandatory")
+    @NotNull(message = "Title is mandatory")
     private String title;
     private String brand;
     private String productCode;

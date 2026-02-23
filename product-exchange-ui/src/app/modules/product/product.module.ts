@@ -12,6 +12,7 @@ import { ManageProductComponent } from './pages/manage-product/manage-product.co
 import { FormsModule } from '@angular/forms';
 import { BorrowedProductListComponent } from './pages/borrowed-product-list/borrowed-product-list.component';
 import { ReturnedProductsComponent } from './pages/returned-products/returned-products.component';
+import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ReturnedProductsComponent } from './pages/returned-products/returned-pr
     MyProductsComponent,
     ManageProductComponent,
     BorrowedProductListComponent,
-    ReturnedProductsComponent
+    ReturnedProductsComponent,
+    ProductDetailsComponent
   ],
   imports: [
     CommonModule,

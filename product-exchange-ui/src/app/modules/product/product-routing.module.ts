@@ -7,6 +7,7 @@ import { ManageProductComponent } from './pages/manage-product/manage-product.co
 import { BorrowedProductListComponent } from './pages/borrowed-product-list/borrowed-product-list.component';
 import { ReturnedProductsComponent } from './pages/returned-products/returned-products.component';
 import { AuthGuard } from 'src/app/services/guard/auth.guard';
+import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
       {
         path: 'returned-products',
         component: ReturnedProductsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'details/:productId',
+        component: ProductDetailsComponent,
         canActivate: [AuthGuard]
       }
     ]

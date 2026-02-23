@@ -1,0 +1,65 @@
+<div class="container mt-4">
+
+  <!-- ERROR MESSAGE -->
+  <div class="alert alert-danger" *ngIf="errorMsg.length">
+    <div *ngFor="let msg of errorMsg">{{ msg }}</div>
+  </div>
+
+  <div class="card shadow-sm p-4" *ngIf="!errorMsg.length">
+
+    <div class="row">
+
+      <!-- IMAGE SECTION -->
+      <div class="col-md-4 text-center">
+        <img
+          class="img-fluid rounded border"
+          style="max-height: 350px;"
+          [src]="selectedPicture || 
+          'https://dummyimage.com/400x400/6c757d/ffffff&text=' + 
+          (productRequest.title || 'No+Image')"
+          alt="product image"
+        />
+      </div>
+
+      <!-- DETAILS SECTION -->
+      <div class="col-md-8">
+
+        <h2 class="fw-bold">{{ productRequest.title }}</h2>
+
+        <h5 class="text-muted mb-3">
+          Brand: {{ productRequest.brand }}
+        </h5>
+
+        <p>
+          <strong>Product Code:</strong>
+          {{ productRequest.productCode }}
+        </p>
+
+        <p>
+          <strong>Description:</strong>
+          {{ productRequest.description }}
+        </p>
+
+        <p>
+          <strong>Shareable:</strong>
+          <span 
+            [class.text-success]="productRequest.shareable"
+            [class.text-danger]="!productRequest.shareable"
+          >
+            {{ productRequest.shareable ? 'Yes' : 'No' }}
+          </span>
+        </p>
+
+        <div class="mt-3 d-flex gap-2">
+          <button class="btn btn-outline-primary" routerLink="/products">
+            Back
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

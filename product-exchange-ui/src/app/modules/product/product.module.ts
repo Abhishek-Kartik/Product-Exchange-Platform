@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { BorrowedProductListComponent } from './pages/borrowed-product-list/borrowed-product-list.component';
 import { ReturnedProductsComponent } from './pages/returned-products/returned-products.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ProductDetailsComponent } from './pages/product-details/product-details
     ManageProductComponent,
     BorrowedProductListComponent,
     ReturnedProductsComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,11 @@
+<app-confirmation-modal
+  *ngIf="showArchiveModal"
+  [title]="'Archive Product'"
+  [message]="'Are you sure you want to archive this product?'"
+  (confirm)="confirmArchive()"
+  (cancel)="closeModal()"
+>
+</app-confirmation-modal>
 <h2>My Product list</h2>
 <hr>
 <div class="d-flex justify-content-end mb-3">

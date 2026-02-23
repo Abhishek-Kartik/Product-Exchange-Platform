@@ -1,9 +1,73 @@
-div {
-  &.card {
-    max-height: 450px;
-    min-height: 450px;
-  }
-}
 i {
   cursor: pointer;
 }
+
+.archived-image {
+  filter: blur(4px);
+  opacity: 1;
+  transition: 0.3s ease;
+}
+
+.transition-hover {
+  transition: transform 0.1s ease-in-out, box-shadow 0.9s ease-in-out;
+}
+
+.transition-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.btn-link {
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  transform: scale(1.2);
+  transition: transform 0.1s;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.btn-action i {
+  font-size: 1.1rem;
+}
+
+.action-text {
+  max-width: 0;
+  display: inline-block;
+  white-space: nowrap;
+  transition: max-width 0.3s ease, margin 0.3s ease;
+  font-size: 0.85rem;
+  font-weight: bold;
+  opacity: 0;
+}
+
+.btn-action:hover {
+  background-color: rgba(0, 0, 0, 0.05); 
+}
+
+.btn-action:hover .action-text {
+  max-width: 100px; 
+  margin-left: 8px;
+  opacity: 1;
+}
+
+
+.btn-action.text-danger:hover { background-color: #fee2e2; }
+.btn-action.text-success:hover { background-color: #f0fdf4; }
+.btn-action.text-primary:hover { background-color: #eff6ff; }
+.btn-action.text-warning:hover { background-color: #fefce8; }

@@ -1,41 +1,102 @@
 <div
-  class="card"
-  style="width: 20rem"
+  class="card h-100 shadow-sm transition-hover"
+  style="width: 18rem"
   [class.border-success]="product.shareable"
   [class.border-warning]="product.archived"
 >
-  <img height="200" [src]="productCover" class="card-img-top" alt="..." />
+  <div class="position-relative">
+    <img
+      [src]="productCover"
+      class="card-img-top object-fit-cover"
+      [ngClass]="{ 'archived-image': product.archived }"
+      height="200"
+      alt="Product Image"
+    />
+    <span
+      *ngIf="product.archived"
+      class="badge bg-warning text-dark position-absolute top-0 end-0 m-2"
+    >
+      Archived
+    </span>
+  </div>
   <div class="card-body">
-    <h5 class="card-title fs-6 text-nowrap fw-bold mb-1">
-      <i class="fa-solid fa-book"></i>&nbsp;{{ product.title }}
+    <h5
+      class="card-title fs-6 text-nowrap fw-bold mb-1"
+      [title]="product.title"
+    >
+      {{ product.title }}
     </h5>
-    <h5 class="card-subtitle fs-6 text-secondary mb-1">
-      <i class="fa-solid fa-user-check"></i>&nbsp;{{ product.brand }}
-    </h5>
-    <h6 class="card-subtitle fs-6 text-secondary">
-      <i class="fas fa-user"></i>&nbsp;{{ product.owner }}
-    </h6>
-    <div class="d-flex gap-2">
+    <p class="text-muted small mb-2">
+      <i class="fa-solid fa-tag me-1"></i>{{ product.brand }}
+    </p>
+    <div class="d-flex align-items-center mb-3">
+      <div
+        class="avatar-sm me-2 bg-light rounded-circle d-flex align-items-center justify-content-center"
+        style="width: 24px; height: 24px"
+      >
+        <i class="fas fa-user col-primary small"></i>
+      </div>
+      <span class="small text-secondary">{{ product.owner }}</span>
+    </div>
+    <div class="d-flex align-items-center gap-2">
       <app-rating [rating]="product.rating || 0"></app-rating>
-      <span class="fw-bold" *ngIf="(product.rating || 0) > 0">
+      <span
+        class="badge bg-light text-dark border"
+        *ngIf="(product.rating || 0) > 0"
+      >
         {{ product.rating }}
       </span>
     </div>
   </div>
-  <div
-    class="card-footer d-flex gap-2 justify-content-between align-items-center"
-  >
+  <div class="card-footer bg-white border-top-0 pb-3">
     <div class="d-flex gap-2" *ngIf="!manage">
-      <i (click)="onShowDetails()" class="fas fa-circle-info text-primary"
-        >Details</i
-      >
-      <i (click)="onBorrow()" class="fas fa-list-check text-primary">Borrow</i>
+      <div class="d-flex gap-2">
+        <button
+          (click)="onShowDetails()"
+          class="btn btn-outline-primary btn-sm flex-grow-1"
+        >
+          <i class="fas fa-circle-info me-1"></i> Full Info
+        </button>
+        <button
+          (click)="onBorrow()"
+          class="btn btn-primary btn-sm flex-grow-1"
+          [disabled]="product.archived"
+        >
+          <i class="fas fa-hand-holding-hand me-1"></i> Borrow
+        </button>
+      </div>
     </div>
-    <div class="d-flex gap-2" *ngIf="manage">
-      <i (click)="onEdit()" class="fas fa-edit text-success">Edit</i>
-      <i (click)="onShare()" class="fas fa-share-nodes text-primary">Share</i>
-      <i (click)="onArchive()" class="fas fa-archive text-danger">Archive</i>
-      <i (click)="onDelete()" class="fas fa-archive text-danger">Delete</i>
+    <div
+      class="d-flex justify-content-around bg-light p-2 rounded"
+      *ngIf="manage"
+    >
+      <button (click)="onEdit()" class="btn-action text-success" title="Edit">
+        <i class="fas fa-edit"></i>
+        <span class="action-text">Edit</span>
+      </button>
+
+      <button (click)="onShare()" class="btn-action text-primary" title="Share">
+        <i class="fas fa-share-nodes"></i>
+        <span class="action-text">Share</span>
+      </button>
+
+      <button
+        (click)="onArchive()"
+        class="btn-action text-warning"
+        title="Archive"
+      >
+        <i class="fas fa-box-archive"></i>
+        <span class="action-text">Archive</span>
+      </button>
+
+      <button
+        (click)="onDelete()"
+        class="btn-action text-danger"
+        title="Delete"
+      >
+        <i class="fas fa-trash-can"></i>
+        <span class="action-text">Delete</span>
+      </button>
     </div>
   </div>
 </div>

@@ -53,14 +53,15 @@ export class ProductCardComponent {
     new EventEmitter<ProductResponse>();
   @Output() private archive: EventEmitter<ProductResponse> =
     new EventEmitter<ProductResponse>();
-  @Output() private addToWaitingList: EventEmitter<ProductResponse> =
-    new EventEmitter<ProductResponse>();
   @Output() private borrow: EventEmitter<ProductResponse> =
     new EventEmitter<ProductResponse>();
   @Output() private edit: EventEmitter<ProductResponse> =
     new EventEmitter<ProductResponse>();
   @Output() private details: EventEmitter<ProductResponse> =
     new EventEmitter<ProductResponse>();
+
+  @Output() private delete: EventEmitter<ProductResponse> =
+   new EventEmitter<ProductResponse>() 
 
   onShare() {
     this.share.emit(this._product);
@@ -70,8 +71,8 @@ export class ProductCardComponent {
     this.archive.emit(this._product);
   }
 
-  onAddToWaitingList() {
-    this.addToWaitingList.emit(this._product);
+  onDelete(){
+    this.delete.emit(this._product);
   }
 
   onBorrow() {

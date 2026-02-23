@@ -97,7 +97,4 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['products', 'details', product.id]);
   }
   
-  addProductToWaitingList(product: ProductResponse) {
-    return null;
-  }
 }

@@ -93,4 +93,8 @@ export class MyProductsComponent implements OnInit {
   editProduct(product: ProductResponse) {
     this.router.navigate(['products', 'manage', product.id]);
   }
+
+  deleteProduct(product: ProductResponse){
+    this.router.navigate(['products', 'delete', product.id]);
+  }
 }
